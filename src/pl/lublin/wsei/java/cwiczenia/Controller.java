@@ -5,6 +5,9 @@ import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.fxml.FXML;
@@ -18,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Controller {
     public Label lbFile;
@@ -85,6 +89,29 @@ public class Controller {
     public void btnZaladuj(ActionEvent actionEvent) {
         if (setInfografika != null){
             hostServices.showDocument(setInfografika.adresStrony);
+            if (setInfografika != null){
+                hostServices.showDocument(setInfografika.adresStrony);
+            }
+        }
+
+        public void btnPokazOnAction(ActionEvent actionEvent) {
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("imgViewer.fxml"));
+                Parent root = loader.load();
+                ImgViewer viewer = loader.getController();
+                if (setInfografika != null){
+                    Image img = new Image(setInfografika.adresGrafiki);
+                    viewer.imgView.setFitWidth(img.getWidth());
+                    viewer.imgView.setFitHeight(img.getHeight());
+                    viewer.imgView.setImage(img);
+                }
+
+                Stage stage = new Stage();
+                stage.setTitle("Podgląd infografiki");
+                stage.setScene(new Scene(root, 900, 800));
+                stage.show();
+            } catch(IOException e){
+                e.printStackTrace();
         }
     }
 }
